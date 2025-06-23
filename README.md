@@ -22,7 +22,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/scada-anomaly-dashboard.git
+git clone https://github.com/Rnaveennithyakalyan/SCADA_DASHBOARD.git
 cd scada-anomaly-dashboard
 ```
 
