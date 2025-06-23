@@ -23,7 +23,7 @@
 
 ```bash
 git clone https://github.com/Rnaveennithyakalyan/SCADA_DASHBOARD.git
-cd scada-anomaly-dashboard
+cd SCADA_DASHBOARD
 ```
 
 ### 2. Create a Virtual Environment
