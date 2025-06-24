@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from models.anomaly_detector import run_detection
 from utils.telegram_alert import send_telegram_alert, send_csv_document
 
-# --- Load environment variables ---
+# Load environment variables 
 load_dotenv()
 bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
 chat_id = os.getenv("TELEGRAM_CHAT_ID")
@@ -16,7 +16,7 @@ st.set_page_config(page_title="Solar Anomaly Dashboard", layout="wide")
 st.title("🔆 Solar Anomaly Detection Dashboard")
 st.markdown("Upload your solar dataset or run detection using simulated data.")
 
-# --- Sidebar ---
+# Sidebar
 with st.sidebar:
     mode = st.radio("Select Mode", ["Upload CSV", "Simulate from Example"])
     contamination = st.slider("Contamination Rate (for IF model)", 0.01, 0.10, 0.02, step=0.01)
@@ -27,7 +27,7 @@ with st.sidebar:
     else:
         uploaded_file = None
 
-# --- Load Data ---
+#  Load Data 
 if mode == "Simulate from Example":
     df = pd.read_csv("data/Merged_Solar_Data.csv")
     st.success("Using simulated solar data ✅")
@@ -41,7 +41,7 @@ elif uploaded_file is not None:
 else:
     df = None
 
-# --- Run Detection ---
+# Run Detection 
 if df is not None:
     if st.button("🚀 Run Anomaly Detection"):
         with st.spinner("Running models and generating results..."):
@@ -55,7 +55,7 @@ if df is not None:
             st.write("Classification Report:")
             st.json(results["report"])
 
-            # --- Plot ---
+            # Plot 
             st.markdown("---")
             st.subheader("📈 AC Power vs Irradiation (Colored by IF Anomalies)")
             fig, ax = plt.subplots(figsize=(8, 5))
@@ -67,7 +67,7 @@ if df is not None:
             ax.set_title("Anomaly Detection: Isolation Forest")
             st.pyplot(fig)
 
-            # --- Download ---
+            #  Download 
             st.markdown("---")
             st.subheader("📁 Download Detected Anomalies")
             anomalies = df_out[
@@ -84,7 +84,7 @@ if df is not None:
                 mime="text/csv"
             )
 
-            # --- Telegram Alerts ---
+            #  Telegram Alerts
             if alert_toggle and not anomalies.empty:
                 summary = f"⚠️ {len(anomalies)} anomalies detected!\nContamination: {contamination:.2f}"
                 send_telegram_alert(summary, bot_token, chat_id)
