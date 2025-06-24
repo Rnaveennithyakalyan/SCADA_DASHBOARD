@@ -13,12 +13,12 @@ def run_detection(df, contamination=0.02):
     features = ["IRRADIATION", "AMBIENT_TEMPERATURE", "MODULE_TEMPERATURE", "AC_POWER"]
     X = df[features]
 
-    # --- Isolation Forest ---
+    #  Isolation Forest 
     iso_forest = IsolationForest(contamination=contamination, random_state=42)
     iso_forest.fit(X)
     df["IF_anomaly"] = pd.Series(iso_forest.predict(X)).map({1: "Normal", -1: "Anomaly"})
 
-    # --- Random Forest ---
+    #  Random Forest 
     df["RF_label"] = df["IF_anomaly"].map({"Normal": 0, "Anomaly": 1})
     X_train, X_test, y_train, y_test = train_test_split(X, df["RF_label"], test_size=0.2, random_state=42)
     rf_model = RandomForestClassifier(n_estimators=200, random_state=42)
